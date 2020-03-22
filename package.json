@@ -1,6 +1,6 @@
 {
-  "name": "y",
-  "productName": "y",
+  "name": "taskboard",
+  "productName": "ytaskboard",
   "version": "0.0.1",
   "author": "yakunsun <sunyakun.mail@qq.com>",
   "description": "An electron-vue project",
