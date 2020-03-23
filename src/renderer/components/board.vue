@@ -5,21 +5,22 @@
       <my-button v-on:click.native="showInput=true">+</my-button>
     </header>
     <div class="body">
-      <transition name="overturn">
-        <card v-if="showInput">
+      <transition-group 
+        tag="ul"
+        name="card-list"
+        class="cards"
+        v-on:dragover.prevent="onDragover"
+        v-on:drop.prevent="onDrop"
+      >
+        <card v-if="showInput" key="input" class="input-card">
           <my-input
             v-on:ok="saveInputItem"
             v-on:cancle="showInput=false"
             v-model="inputValue"
           />
         </card>
-      </transition>
-      <ul
-        class="cards"
-        v-on:dragover.prevent="onDragover"
-        v-on:drop.prevent="onDrop"
-      >
         <card
+          class="card"
           draggable="true"
           v-for="item in items"
           v-bind:key="item.id"
@@ -28,7 +29,7 @@
         >
           <my-item v-bind:item="item" v-on:delete="deleteItem(item)" />
         </card>
-      </ul>
+      </transition-group>
     </div>
   </div>
 </template>
@@ -140,15 +141,15 @@ export default {
   padding-bottom: 2rem;
 }
 
-.overturn-enter,
-.overturn-leave-to {
-  transform-origin: center top;
-  transform: rotateX(90deg);
+.card-list-move {
+  transition: all 0.3s;
 }
 
-.overturn-enter-active,
-.overturn-leave-active {
-  transform-origin: center top;
-  transition: transform 0.3s;
+.card-list-enter, .card-list-leave-to {
+  transform: rotateX(360deg);
+}
+
+.card-list-enter-active, .card-list-leave-active {
+  transition: all 0.5s;
 }
 </style>

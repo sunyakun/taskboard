@@ -6,15 +6,12 @@ const path = require('path')
  */
 module.exports = {
   arch: 'x64',
-  asar: true,
-  dir: path.join(__dirname, '../'),
+  asar: false,
   icon: path.join(__dirname, '../build/icons/icon'),
+  dir: path.join(__dirname, '../'),
   ignore: /(^\/(src|test|\.[a-z]+|README|yarn|static|dist\/web))|\.gitkeep/,
   out: path.join(__dirname, '../build'),
   overwrite: true,
-  platform: process.env.BUILD_TARGET || 'all',
-  download: {
-    mirrorOptions: 'https://npm.taobao.org/mirrors/electron'
-  }
+  platform: process.env.BUILD_TARGET || 'all'
 }
   

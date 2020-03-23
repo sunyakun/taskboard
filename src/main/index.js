@@ -54,7 +54,8 @@ void (async function main () {
     webPreferences: {
       nodeIntegration: true
     },
-    title: 'Gitlab Task Board'
+    title: 'Gitlab Task Board',
+    autoHideMenuBar: true
   })
 
   win.loadURL(winURL)
