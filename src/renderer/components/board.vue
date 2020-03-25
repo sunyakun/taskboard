@@ -4,13 +4,14 @@
       <my-label class="label" v-bind:color="card.themeColor">{{ card.title }}</my-label>
       <my-button v-on:click.native="showInput=true">+</my-button>
     </header>
-    <div class="body">
+    <div
+      class="body"
+      v-on:dragover.prevent="onDragover"
+      v-on:drop.prevent="onDrop">
       <transition-group 
         tag="ul"
         name="card-list"
         class="cards"
-        v-on:dragover.prevent="onDragover"
-        v-on:drop.prevent="onDrop"
       >
         <card v-if="showInput" key="input" class="input-card">
           <my-input
@@ -145,11 +146,7 @@ export default {
   transition: all 0.3s;
 }
 
-.card-list-enter, .card-list-leave-to {
-  transform: rotateX(360deg);
-}
-
-.card-list-enter-active, .card-list-leave-active {
-  transition: all 0.5s;
+.card-list-leave-active {
+  display: none;
 }
 </style>

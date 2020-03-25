@@ -17,8 +17,10 @@ export default {
   components: {
     board: Board
   },
-  props: {
-    cards: Array
+  computed: {
+    cards: function () {
+      return this.$store.state.cards
+    }
   },
   methods: {
     onItemChange: function (card, items) {
