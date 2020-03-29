@@ -26,6 +26,7 @@
           v-for="item in card.items"
           v-bind:key="item.id"
           v-on:dragstart.native="onDragstart(item, $event)"
+          v-on:drop.native="onInsertDrop(item, $event)"
         >
           <my-item v-bind:item="item" v-on:delete="deleteItem(item)" />
         </card>
@@ -75,6 +76,12 @@ export default {
       let data = event.dataTransfer.getData('itemobject')
       data = JSON.parse(data)
       this.$store.commit({type: 'moveItem', dstCardId: this.card.id, ...data})
+    },
+    onInsertDrop: function (item, event) {
+      let data = event.dataTransfer.getData('itemobject')
+      data = JSON.parse(data)
+      this.$store.commit({type: 'moveItem', dstCardId: this.card.id, itemId: item.id, ...data})
+      event.stopPropagation()
     },
     saveInputItem: function () {
       this.addItem({text: this.inputValue})

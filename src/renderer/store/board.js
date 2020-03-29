@@ -29,12 +29,16 @@ const mutations = {
     card.items.splice(pos, 1)
   },
   moveItem (state, payload) {
-    let { srcCardId: src, dstCardId: dst, id } = payload
+    let { srcCardId: src, dstCardId: dst, id, itemId } = payload
     let srcCard = state.cards.find(card => card.id === src)
     let dstCard = state.cards.find(card => card.id === dst)
     let pos = srcCard.items.findIndex(item => item.id === id)
     let item = srcCard.items.splice(pos, 1)[0]
-    dstCard.items.push(item)
+    if (!itemId) dstCard.items.push(item)
+    else {
+      let insertPos = dstCard.items.findIndex(item => item.id === itemId)
+      dstCard.items.splice(insertPos, 0, item)
+    }
   },
   resetCards (state, payload) {
     state.cards = payload
