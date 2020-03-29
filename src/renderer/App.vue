@@ -4,27 +4,29 @@
       v-for="card in cards"
       v-bind:key="card.id"
       v-bind:card="card"
-      @itemChange="onItemChange(card, $event)"
     />
   </div>
 </template>
 
 <script>
 import Board from './components/board'
+import MyButton from './components/button'
+import store from './store/index'
 
 export default {
+  created: function () {
+    this.$store.dispatch('loadCards')
+  },
   name: 'App',
+  store,
   components: {
-    board: Board
+    board: Board,
+    myButton: MyButton
   },
   computed: {
     cards: function () {
-      return this.$store.state.cards
-    }
-  },
-  methods: {
-    onItemChange: function (card, items) {
-      this.$emit('boardchange', card.id, items)
+      this.$store.dispatch('saveCards')
+      return this.$store.state.board.cards
     }
   }
 }

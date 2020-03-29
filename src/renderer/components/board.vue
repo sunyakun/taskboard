@@ -2,7 +2,7 @@
   <div class="board">
     <header class="header" v-bind:style="{borderTopColor: card.themeColor}">
       <my-label class="label" v-bind:color="card.themeColor">{{ card.title }}</my-label>
-      <my-button v-on:click.native="showInput=true">+</my-button>
+      <my-button v-on:click.native="displayInput">+</my-button>
     </header>
     <div
       class="body"
@@ -23,10 +23,9 @@
         <card
           class="card"
           draggable="true"
-          v-for="item in items"
+          v-for="item in card.items"
           v-bind:key="item.id"
           v-on:dragstart.native="onDragstart(item, $event)"
-          v-on:dragend.native="onDragend(item, $event)"
         >
           <my-item v-bind:item="item" v-on:delete="deleteItem(item)" />
         </card>
@@ -57,11 +56,14 @@ export default {
   data: function () {
     return {
       showInput: false,
-      items: this.card.items,
       inputValue: '请输入...'
     }
   },
   methods: {
+    onDragstart: function (item, event) {
+      event.dataTransfer.effectAllowed = 'move'
+      event.dataTransfer.setData('itemobject', JSON.stringify({id: item.id, srcCardId: this.card.id}))
+    },
     onDragover: function (event) {
       if ([...event.dataTransfer.types].includes('itemobject')) {
         event.dataTransfer.dropEffect = 'move'
@@ -71,32 +73,21 @@ export default {
     },
     onDrop: function (event) {
       let data = event.dataTransfer.getData('itemobject')
-      let item = JSON.parse(data)
-      this.addItem(item)
-    },
-    onDragstart: function (item, event) {
-      event.dataTransfer.effectAllowed = 'move'
-      event.dataTransfer.setData('itemobject', JSON.stringify(item))
-    },
-    onDragend: function (item, event) {
-      if (event.dataTransfer.dropEffect !== 'none') this.deleteItem(item)
+      data = JSON.parse(data)
+      this.$store.commit({type: 'moveItem', dstCardId: this.card.id, ...data})
     },
     saveInputItem: function () {
-      let maxId = 0
-      for (let item of this.items) {
-        if (maxId < item.id) maxId = item.id
-      }
-      this.addItem({ text: this.inputValue, id: ++maxId })
+      this.addItem({text: this.inputValue})
       this.showInput = false
     },
     deleteItem: function (item) {
-      let pos = this.items.findIndex(it => it.id === item.id)
-      this.items.splice(pos, 1)
-      this.$emit('itemChange', this.items)
+      this.$store.commit({type: 'deleteItem', itemId: item.id, cardId: this.card.id})
     },
     addItem: function (item) {
-      this.items.push(item)
-      this.$emit('itemChange', this.items)
+      this.$store.commit({type: 'addItem', cardId: this.card.id, ...item})
+    },
+    displayInput: function (event) {
+      this.showInput = true
     }
   }
 }

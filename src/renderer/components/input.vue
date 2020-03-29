@@ -5,9 +5,8 @@
         <slot>Content:</slot>
       </label>
       <input
+        v-focus="autofocus"
         class="input"
-        v-bind:style="{color: fontColor}"
-        v-on:click.once="fontColor='black'"
         @input="$emit('input', $event.target.value)"
       >
     </div>
@@ -24,12 +23,14 @@ import MyButton from './button'
 export default {
   name: 'MyInput',
   props: {
-    'value': [String, Number]
+    'value': [String, Number],
+    'autofocus': Boolean
   },
-  data: function () {
-    return {
-      fontColor: 'rgb(200, 200, 200)',
-      inputData: this.inputTip
+  directives: {
+    focus: {
+      inserted: function (el, sw) {
+        if (sw) el.focus()
+      }
     }
   },
   components: {
