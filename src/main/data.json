@@ -1,1 +1,20 @@
-[{"id":1,"themeColor":"rgb(240, 173, 78)","title":"ToDo","items":[]},{"id":2,"themeColor":"rgb(92, 184, 92)","title":"Doing","items":[]},{"id":3,"themeColor":"rgb(0, 0, 0)","title":"Closed","items":[]}]
+[
+    {
+        "id": 1,
+        "themeColor": "rgb(240, 173, 78)",
+        "title": "ToDo",
+        "items": []
+    },
+    {
+        "id": 2,
+        "themeColor": "rgb(92, 184, 92)",
+        "title": "Doing",
+        "items": []
+    },
+    {
+        "id": 3,
+        "themeColor": "rgb(0, 0, 0)",
+        "title": "Closed",
+        "items": []
+    }
+]

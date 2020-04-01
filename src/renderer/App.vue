@@ -5,12 +5,14 @@
       v-bind:key="card.id"
       v-bind:card="card"
     />
+    <bubble>Hello world!</bubble>
   </div>
 </template>
 
 <script>
 import Board from './components/board'
 import MyButton from './components/button'
+import Bubble from './components/bubble'
 import store from './store/index'
 
 export default {
@@ -21,7 +23,8 @@ export default {
   store,
   components: {
     board: Board,
-    myButton: MyButton
+    myButton: MyButton,
+    bubble: Bubble
   },
   computed: {
     cards: function () {
