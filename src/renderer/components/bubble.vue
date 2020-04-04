@@ -1,10 +1,9 @@
 <template>
     <transition name='bubble'>
       <div
-        v-if='show'
+        v-if='display'
         class='bubble'
-        v-bind:style="userStyle"
-        @click='destory'>
+        v-bind:style="userStyle">
         <slot></slot>
       </div>
     </transition>
@@ -24,16 +23,10 @@ export default {
           backgroundColor: 'rgb(43, 44, 43)'
         }
       }
-    }
-  },
-  data: function () {
-    return {
-      show: true
-    }
-  },
-  methods: {
-    destory () {
-      this.show = false
+    },
+    display: {
+      type: Boolean,
+      default: () => true
     }
   }
 }
@@ -43,18 +36,25 @@ export default {
 .bubble {
     font-size: 1rem;
     position: fixed;
+    right: 10px;
+    bottom: 10px;
+    color: 'white';
+    background-color: 'rgb(43, 44, 43)';
     padding: 2rem 4rem;
     border: solid 1px black;
     border-radius: 8px;
     cursor: default;
-    transform: translateY(calc(5rem+10px))
 }
 
-.bubble-enter, .bubble-leave-to {
-    transform: translateY(calc(5rem+10px))
+.bubble-enter {
+    transform: translateY(calc(5rem + 17px));
+}
+
+.bubble-leave-to {
+    opacity: 0;
 }
 
 .bubble-enter-active, .bubble-leave-active {
-    transition: opacity 0.5s;
+    transition: all 0.3s;
 }
 </style>

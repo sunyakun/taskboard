@@ -59,6 +59,12 @@ function getMenu () {
   return menuBar
 }
 
+ipcMain.on('saveData', async (event) => {
+  let data = global.sharedObj.data
+  await saveJsonStringToFile(DATA_FILE, JSON.stringify(data))
+  event.reply('saveData-reply', 'success')
+})
+
 void (async function main () {
   await app.whenReady()
   try {
