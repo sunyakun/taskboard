@@ -2,15 +2,17 @@
   <div>
     <div>
       <label>
-        <slot>Content:</slot>
+        <slot>{{ label }}</slot>
       </label>
       <input
+        v-bind='$attrs'
         v-focus="autofocus"
+        v-bind:value='value'
         class="input"
         @input="$emit('input', $event.target.value)"
       >
     </div>
-    <div>
+    <div v-if='button'>
       <my-button class="btn" v-on:click.native="$emit('ok')">确定</my-button>
       <my-button class="input-btn" v-on:click.native="$emit('cancle')">取消</my-button>
     </div>
@@ -24,7 +26,19 @@ export default {
   name: 'MyInput',
   props: {
     'value': [String, Number],
-    'autofocus': Boolean
+    'autofocus': Boolean,
+    'button': {
+      type: Boolean,
+      default: () => {
+        return true
+      }
+    },
+    'label': {
+      type: String,
+      default: () => {
+        return 'Content:'
+      }
+    }
   },
   directives: {
     focus: {

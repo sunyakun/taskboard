@@ -2,7 +2,7 @@ if (process.env.NODE_ENV !== 'development') {
   global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\') // eslint-disable-line
 }
 
-const {app, BrowserWindow, Menu, MenuItem, ipcMain} = require('electron')
+const {app, BrowserWindow, ipcMain} = require('electron')
 const {promisify} = require('util')
 const fs = require('fs')
 const path = require('path')
@@ -39,26 +39,6 @@ async function checkFile (path) {
   return false
 }
 
-function getMenu () {
-  let menuBar = new Menu()
-  let functionMenu = new Menu()
-
-  functionMenu.append(new MenuItem({
-    label: 'save',
-    click: async function () {
-      let data = global.sharedObj.data
-      await saveJsonStringToFile(DATA_FILE, JSON.stringify(data))
-      ipcMain.emit('saveSuccess')
-    }
-  }))
-
-  menuBar.append(new MenuItem({
-    label: 'function',
-    submenu: functionMenu
-  }))
-  return menuBar
-}
-
 ipcMain.on('saveData', async (event) => {
   let data = global.sharedObj.data
   await saveJsonStringToFile(DATA_FILE, JSON.stringify(data))
@@ -81,10 +61,8 @@ void (async function main () {
       nodeIntegration: true
     },
     title: 'Gitlab Task Board',
-    autoHideMenuBar: false
+    autoHideMenuBar: true
   })
-
-  win.setMenu(getMenu())
 
   win.loadURL(winURL)
   win.on('close', async () => {
