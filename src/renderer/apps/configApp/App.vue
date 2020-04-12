@@ -39,12 +39,22 @@ export default {
     myButton: MyButton,
     MySelect: MySelect
   },
+  beforeCreate () {
+    this._occupationCard = {id: -1, title: 'new card', themeColor: '#000000'}
+  },
   data () {
+    let options = []
+    let self = this
+    let backIcon = {id: 1, src: '/back.svg'}
+    this.$store.dispatch('loadStatic', backIcon.src).then(() => {
+      backIcon.icon = self.$store.state.board.static[backIcon.src]
+      options.push(backIcon)
+    })
     return {
-      options: [{id: 1, icon: this.$store.state.board.icons.back}],
-      selectedCardId: this.$store.state.board.cards[0].id,
-      selectedCardTitle: this.$store.state.board.cards[0].title,
-      selectedCardThemeColor: this.$store.state.board.cards[0].themeColor
+      options: options,
+      selectedCardId: this._occupationCard.id,
+      selectedCardTitle: this._occupationCard.title,
+      selectedCardThemeColor: this._occupationCard.themeColor
     }
   },
   computed: {
@@ -55,15 +65,16 @@ export default {
         if (maxId < card.id) maxId = card.id
         cardSelectOptions.push({id: card.id, value: card.title})
       }
-      // 创建一个占位元素，用来添加新 card
-      this._occupationCardId = maxId + 1
-      cardSelectOptions.push({id: this._occupationCardId, value: '添加'})
+      // 设置占位元素id，用来添加新 card
+      this._occupationCard.id = maxId + 1
+      cardSelectOptions.push({id: this._occupationCard.id, value: '添加'})
+      this.selectedCardId = cardSelectOptions[0].id
       return cardSelectOptions
     }
   },
   methods: {
     updateCard () {
-      if (Number(this.selectedCardId) === this._occupationCardId) {
+      if (Number(this.selectedCardId) === this._occupationCard.id) {
         this.$store.commit('addCard', {
           id: Number(this.selectedCardId),
           title: this.selectedCardTitle,
@@ -85,8 +96,7 @@ export default {
   watch: {
     selectedCardId (val, oldVal) {
       let cardId = Number(val)
-      let card = this.$store.state.board.cards.find(card => card.id === cardId) ||
-          {title: 'new card', themeColor: '#000000'}
+      let card = this.$store.state.board.cards.find(card => card.id === cardId) || this._occupationCard
       this.selectedCardTitle = card.title
       this.selectedCardThemeColor = card.themeColor
     }

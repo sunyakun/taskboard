@@ -35,10 +35,17 @@ export default {
     navigation: Navigation
   },
   data: function () {
+    let self = this
+    let options = []
+    let backIcon = {id: 1, src: '/config.svg'}
+    this.$store.dispatch('loadStatic', backIcon.src).then(() => {
+      backIcon.icon = self.$store.state.board.static[backIcon.src]
+      options.push(backIcon)
+    })
     return {
       bubbleDisplay: false,
       bubbleMsg: '',
-      options: [{id: 1, 'icon': this.$store.state.board.icons.config}]
+      options: options
     }
   },
   computed: {

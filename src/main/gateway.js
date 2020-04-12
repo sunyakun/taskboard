@@ -19,6 +19,7 @@ class IpcGateway {
   setup () {
     this.addRoute('load-config', api.loadConfig)
     this.addRoute('save-config', api.saveConfig)
+    this.addRoute('load-static', api.loadStaticFile)
   }
 }
 

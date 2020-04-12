@@ -10,5 +10,9 @@ export default {
   saveCards (cards) {
     let cli = new client.Client()
     return cli.request('save-config', cards)
+  },
+  getStatic (url) {
+    let cli = new client.Client()
+    return cli.request('load-static', url)
   }
 }

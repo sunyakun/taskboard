@@ -1,1 +1,1 @@
-[{"id":101,"themeColor":"#fdc542","title":"ToDo","items":[]},{"id":102,"themeColor":"#1fd631","title":"Doing","items":[]},{"id":103,"title":"Closed","themeColor":"#000000","items":[]}]
+[{"id":0,"title":"ToDo","themeColor":"#cccc00","items":[]},{"id":1,"title":"Doing","themeColor":"#00ff00","items":[]},{"id":2,"title":"Closed","themeColor":"#000000","items":[]}]
