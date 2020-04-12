@@ -17,7 +17,6 @@ import Board from '../components/board'
 import MyButton from '../components/button'
 import Bubble from '../components/bubble'
 import Navigation from '../components/navigation'
-import electronAPI from '../api/electron'
 
 export default {
   created: function () {
@@ -39,19 +38,18 @@ export default {
     return {
       bubbleDisplay: false,
       bubbleMsg: '',
-      options: [{id: 1, 'icon': this.$store.state.board.icon}]
+      options: [{id: 1, 'icon': this.$store.state.board.icons.config}]
     }
   },
   computed: {
     cards: function () {
-      this.$store.dispatch('saveCards')
       return this.$store.state.board.cards
     }
   },
   methods: {
     saveShotcut () {
       let self = this
-      electronAPI.saveData().then(() => {
+      this.$store.dispatch('saveCards').then(() => {
         self.bubbleDisplay = true
         self.bubbleMsg = '保存成功'
         setTimeout(() => void (self.bubbleDisplay = false), 1000)

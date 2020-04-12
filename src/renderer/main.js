@@ -17,16 +17,15 @@ const Routes = {
   '/config': ConfigPage
 }
 
-/* eslint-disable no-new */
-let app = new Vue({ // eslint-disable-line
-  store,
-  data: {
-    currentLocation: '/config'
-  },
-  created: function () {
-    this.$store.dispatch('loadCards')
-  },
-  render: function (h) {
-    return h(Routes[this.currentLocation] || App)
-  }
-}).$mount('#app')
+store.dispatch('loadCards').then(() => {
+  /* eslint-disable no-new */
+  new Vue({ // eslint-disable-line
+    store,
+    data: {
+      currentLocation: '/'
+    },
+    render: function (h) {
+      return h(Routes[this.currentLocation] || App)
+    }
+  }).$mount('#app')
+})

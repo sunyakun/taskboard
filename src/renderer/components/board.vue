@@ -76,11 +76,13 @@ export default {
       let data = event.dataTransfer.getData('itemobject')
       data = JSON.parse(data)
       this.$store.commit({type: 'moveItem', dstCardId: this.card.id, ...data})
+      this.$store.dispatch('saveCards')
     },
     onInsertDrop: function (item, event) {
       let data = event.dataTransfer.getData('itemobject')
       data = JSON.parse(data)
       this.$store.commit({type: 'moveItem', dstCardId: this.card.id, itemId: item.id, ...data})
+      this.$store.dispatch('saveCards')
       event.stopPropagation()
     },
     saveInputItem: function () {
@@ -89,9 +91,11 @@ export default {
     },
     deleteItem: function (item) {
       this.$store.commit({type: 'deleteItem', itemId: item.id, cardId: this.card.id})
+      this.$store.dispatch('saveCards')
     },
     addItem: function (item) {
       this.$store.commit({type: 'addItem', cardId: this.card.id, ...item})
+      this.$store.dispatch('saveCards')
     },
     displayInput: function (event) {
       this.showInput = true
@@ -132,6 +136,21 @@ export default {
 
 .body {
   flex-basis: 100%;
+  max-height: 80vh;
+  overflow: auto;
+}
+
+.body::-webkit-scrollbar {
+  width: 0px;
+}
+
+.body:hover::-webkit-scrollbar {
+  width: 0.25rem;
+}
+
+.body::-webkit-scrollbar-thumb {
+  background: rgb(202, 202, 202);
+  border-radius: 1rem;
 }
 
 .cards {

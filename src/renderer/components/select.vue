@@ -1,5 +1,5 @@
 <template>
-  <select @input='$emit("input", $event.target.value)'>
+  <select @change='$emit("input", $event.target.value)'>
     <option v-for='option in options' v-bind:key='option.id' v-bind:value='option.id'>
       {{ option.value }}
     </option>

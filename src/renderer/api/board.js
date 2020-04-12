@@ -1,16 +1,14 @@
-const { remote } = require('electron')
+import client from './client'
 
 export default {
   getCards () {
-    let data = remote.getGlobal('sharedObj').data
-    let cards = new Array(0)
-    for (let cardData of data) {
-      let { id, themeColor, title, items } = cardData
-      cards.push({ id, themeColor, title, items })
-    }
-    return cards
+    let cli = new client.Client()
+    return cli.request('load-config').then(data => {
+      return data
+    })
   },
   saveCards (cards) {
-    remote.getGlobal('sharedObj').data = cards
+    let cli = new client.Client()
+    return cli.request('save-config', cards)
   }
 }
